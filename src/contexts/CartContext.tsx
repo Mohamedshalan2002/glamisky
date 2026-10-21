@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useReducer, useEffect, type ReactNode } from 'react';
 import type { CartItem, Product, CartTotals, PromoCode, ShippingAddress, PaymentDetails, Order } from '../types';
+import { simulatedGateway } from '../services/paymentGateway';
 
 export const FREE_ALLOWANCE_CAP = 499;
 export const SERVICE_FEE_RATE = 0.10;
@@ -328,12 +329,19 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const processPayment = async () => {
     dispatch({ type: 'SET_PROCESSING_PAYMENT', payload: true });
-    
-    await new Promise(resolve => setTimeout(resolve, 2500));
-    
+
+    // Create a payment intent and run it through the gateway instead of a bare delay.
     const newTotals = calculateTotals(state.items, state.promoCode, state.appliedPromo);
+    const intent = await simulatedGateway.createPaymentIntent(newTotals.total, 'USD', { orderId: `pending_${Date.now()}` });
+
+    const result = await simulatedGateway.processPayment(state.paymentDetails!, intent);
+    if (!result.success) {
+      dispatch({ type: 'SET_PROCESSING_PAYMENT', payload: false });
+      throw new Error(result.error || 'Payment failed');
+    }
+
     const order: Order = {
-      id: `ORD-${Date.now().toString(36).toUpperCase()}`,
+      id: result.orderId || `ORD-${Date.now().toString(36).toUpperCase()}`,
       items: state.items,
       shippingAddress: state.shippingAddress!,
       paymentDetails: state.paymentDetails!,
@@ -342,7 +350,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       createdAt: new Date(),
       trackingNumber: `GLM${Date.now().toString(36).toUpperCase()}${Math.random().toString(36).substring(2, 6).toUpperCase()}`,
     };
-    
+
     // Keep the order in state so the confirmation screen can render it.
     // The cart is emptied when the user clicks "Continue Shopping" (clearCart).
     dispatch({ type: 'COMPLETE_ORDER', payload: order });
