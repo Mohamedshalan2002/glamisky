@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { useScroll, useTransform } from 'framer-motion';
 import { Crown, Gem, Leaf, Truck } from 'lucide-react';
 
 const stories = [
@@ -30,7 +29,6 @@ const stories = [
 ];
 
 export function StorySection() {
-  const { scrollY } = useScroll();
   
   return (
     <section className="relative py-16 md:py-24 lg:py-32 overflow-hidden">
@@ -50,16 +48,9 @@ export function StorySection() {
 
         <div className="space-y-8 lg:space-y-12">
           {stories.map((story, index) => {
-            const yProgress = useTransform(scrollY, [index * 500, (index + 1) * 500], [100, -100]);
-            const opacityProgress = useTransform(scrollY, [index * 500, (index + 0.5) * 500], [0, 1]);
-            
             return (
               <motion.div
                 key={story.title}
-                style={{ 
-                  transform: yProgress,
-                  opacity: opacityProgress,
-                }}
                 className="relative flex flex-col lg:flex-row gap-8 lg:gap-16 items-start"
               >
                 <div

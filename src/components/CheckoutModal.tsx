@@ -187,7 +187,7 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
       await processPayment();
       setShowSuccess(true);
       setStep(3);
-    } catch (error) {
+    } catch {
       setFormErrors(prev => ({ ...prev, card: 'Payment failed. Please try again.' }));
     } finally {
       setIsProcessing(false);

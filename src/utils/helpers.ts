@@ -45,7 +45,7 @@ export function validateEmail(email: string): boolean {
 }
 
 export function validatePhone(phone: string): boolean {
-  return /^[\d\s\-\+\(\)]{10,}$/.test(phone);
+  return /^[\d\s\-+()]{10,}$/.test(phone);
 }
 
 export function getInitials(name: string): string {
