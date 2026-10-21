@@ -165,8 +165,42 @@ class PaymentGatewayService {
     }
   }
 
-  private async process2Checkout(_paymentDetails: PaymentDetails, _paymentIntent: PaymentIntent): Promise<PaymentResult> {
-    return { success: false, error: '2Checkout integration requires server-side implementation' };
+  private async process2Checkout(paymentDetails: PaymentDetails, _paymentIntent: PaymentIntent): Promise<PaymentResult> {
+    await this.initialize();
+    if (!this.config.merchantId || !this.config.publicKey) {
+      return { success: false, error: '2Checkout not configured: set merchantId and publicKey in createPaymentGateway' };
+    }
+    if (typeof window === 'undefined' || !(window as any).TCO) {
+      return { success: false, error: '2Checkout SDK failed to load' };
+    }
+    const TCO = (window as any).TCO;
+    const [expMonth, expYear] = (paymentDetails.expiryDate || '').split('/');
+    const args = {
+      sellerId: this.config.merchantId,
+      publishableKey: this.config.publicKey,
+      ccNo: (paymentDetails.cardNumber || '').replace(/\s/g, ''),
+      cvv: paymentDetails.cvv || '',
+      expMonth: expMonth || '',
+      expYear: expYear ? `20${expYear}` : '',
+    };
+    try {
+      const token: string = await new Promise((resolve, reject) => {
+        TCO.requestToken(
+          (data: any) => resolve(data?.response?.token?.token || data?.token?.token),
+          (err: any) => reject(new Error(err?.errorMsg || '2Checkout tokenization failed')),
+          args
+        );
+      });
+      // NOTE: charging the token must happen on a backend with your secret key.
+      // For a static site we cannot complete the charge here; return the token for the backend.
+      return {
+        success: false,
+        error: 'Card tokenized successfully, but charging requires a backend. Token: ' + token,
+        transactionId: token,
+      };
+    } catch (e: any) {
+      return { success: false, error: e?.message || '2Checkout payment failed' };
+    }
   }
 
   private async processLemonSqueezy(_paymentDetails: PaymentDetails, _paymentIntent: PaymentIntent): Promise<PaymentResult> {
