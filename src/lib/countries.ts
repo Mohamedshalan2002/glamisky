@@ -1,0 +1,15 @@
+export const COUNTRIES = [
+  { code: 'US', name: 'United States', dialCode: '+1' },
+  { code: 'GB', name: 'United Kingdom', dialCode: '+44' },
+  { code: 'CA', name: 'Canada', dialCode: '+1' },
+  { code: 'AU', name: 'Australia', dialCode: '+61' },
+  { code: 'DE', name: 'Germany', dialCode: '+49' },
+  { code: 'FR', name: 'France', dialCode: '+33' },
+  { code: 'IT', name: 'Italy', dialCode: '+39' },
+  { code: 'ES', name: 'Spain', dialCode: '+34' },
+  { code: 'JP', name: 'Japan', dialCode: '+81' },
+  { code: 'SG', name: 'Singapore', dialCode: '+65' },
+  { code: 'AE', name: 'United Arab Emirates', dialCode: '+971' },
+  { code: 'HK', name: 'Hong Kong', dialCode: '+852' },
+  { code: 'EG', name: 'Egypt', dialCode: '+20' },
+];
