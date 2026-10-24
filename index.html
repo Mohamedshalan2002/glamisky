@@ -3,37 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Glamisky — Ultra-luxurious women's fashion & accessories. Your first order is on us: up to $499 in complimentary luxury items with code NEWCOMERS." />
-    <meta name="theme-color" content="#211a16" />
-    <title>Glamisky — Luxury Fashion & Accessories</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="description" content="Glamisky: dresses, sets, bags, jewelry and sunglasses, every piece under $30. First order up to $499 on us with code NEWCOMERS." />
+    <meta name="theme-color" content="#FAF6F9" />
+    <title>Glamisky: Dress up for under $30</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <div id="root"></div>
-    <script>
-      // Temporary boot-error trap (diagnostics) — shows runtime errors on screen.
-      (function () {
-        function show(id, bg, text) {
-          try {
-            var el = document.getElementById(id);
-            if (!el) {
-              el = document.createElement('pre');
-              el.id = id;
-              el.style.cssText = 'position:fixed;bottom:0;left:0;right:0;z-index:99999;background:' + bg + ';color:#fff;padding:12px;font:12px monospace;white-space:pre-wrap;margin:0;';
-              (document.body || document.documentElement).appendChild(el);
-            }
-            el.textContent += text + '\n';
-          } catch (_) {}
-        }
-        window.addEventListener('error', function (e) {
-          show('boot-error', '#900', 'BOOT ERROR: ' + e.message + '\n  at ' + (e.filename || '?') + ':' + e.lineno + ':' + e.colno);
-        });
-        window.addEventListener('unhandledrejection', function (e) {
-          var r = e.reason;
-          show('boot-error', '#906', 'UNHANDLED REJECTION: ' + ((r && r.stack) || r));
-        });
-      })();
-    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

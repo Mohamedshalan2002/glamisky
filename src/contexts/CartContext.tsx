@@ -183,7 +183,6 @@ function cartReducer(state: CartState, action: CartAction): CartState {
           ...state,
           promoCode: code,
           appliedPromo: NEWCOMERS_PROMO,
-          showConfetti: true,
         };
       }
       return state;
@@ -228,6 +227,7 @@ function cartReducer(state: CartState, action: CartAction): CartState {
       return {
         ...state,
         order,
+        paymentDetails: null,
         isProcessingPayment: false,
         checkoutStep: 3,
         showConfetti: true,
@@ -269,14 +269,14 @@ interface CartContextType {
   toggleCart: () => void;
   openCart: () => void;
   closeCart: () => void;
-  applyPromo: (code: string) => void;
+  applyPromo: (code: string) => boolean;
   removePromo: () => void;
   openCheckout: () => void;
   closeCheckout: () => void;
   setCheckoutStep: (step: 1 | 2 | 3) => void;
   setShippingAddress: (address: ShippingAddress) => void;
   setPaymentDetails: (details: PaymentDetails) => void;
-  processPayment: () => Promise<void>;
+  processPayment: (address: ShippingAddress, details: PaymentDetails) => Promise<void>;
   clearCart: () => void;
   getItemCount: () => number;
 }
@@ -289,15 +289,26 @@ export function CartProvider({ children }: { children: ReactNode }) {
       const stored = localStorage.getItem('glamisky-cart');
       if (stored) {
         const parsed = JSON.parse(stored);
-        return { ...initialState, ...parsed, isCartOpen: false, isCheckoutOpen: false, isProcessingPayment: false, showConfetti: false };
+        return {
+          ...initialState,
+          items: (Array.isArray(parsed.items) ? parsed.items : []) as CartItem[],
+          promoCode: typeof parsed.promoCode === 'string' ? parsed.promoCode : '',
+          appliedPromo: (parsed.appliedPromo ?? null) as PromoCode | null,
+        };
       }
     } catch {}
     return initialState;
   });
 
+  const { items: savedItems, promoCode: savedCode, appliedPromo: savedPromo } = state;
   useEffect(() => {
-    localStorage.setItem('glamisky-cart', JSON.stringify(state));
-  }, [state]);
+    // Only the bag and promo are persisted: never card data or the order.
+    try {
+      localStorage.setItem('glamisky-cart', JSON.stringify({ items: savedItems, promoCode: savedCode, appliedPromo: savedPromo }));
+    } catch {
+      /* storage unavailable (private mode / quota): the cart simply won't persist */
+    }
+  }, [savedItems, savedCode, savedPromo]);
 
   const totals = calculateTotals(state.items, state.promoCode, state.appliedPromo);
 
@@ -316,7 +327,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const toggleCart = () => dispatch({ type: 'TOGGLE_CART' });
   const openCart = () => dispatch({ type: 'OPEN_CART' });
   const closeCart = () => dispatch({ type: 'CLOSE_CART' });
-  const applyPromo = (code: string) => dispatch({ type: 'APPLY_PROMO', payload: code });
+  const applyPromo = (code: string): boolean => {
+    if (code.trim().toLowerCase() !== NEWCOMERS_PROMO.code) return false;
+    dispatch({ type: 'APPLY_PROMO', payload: code });
+    return true;
+  };
   const removePromo = () => dispatch({ type: 'REMOVE_PROMO' });
   const openCheckout = () => dispatch({ type: 'OPEN_CHECKOUT' });
   const closeCheckout = () => dispatch({ type: 'CLOSE_CHECKOUT' });
@@ -327,33 +342,35 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const getItemCount = () => state.items.reduce((sum, item) => sum + item.quantity, 0);
 
-  const processPayment = async () => {
+  const processPayment = async (address: ShippingAddress, details: PaymentDetails) => {
     dispatch({ type: 'SET_PROCESSING_PAYMENT', payload: true });
 
-    // Create a payment intent and run it through the gateway instead of a bare delay.
-    const newTotals = calculateTotals(state.items, state.promoCode, state.appliedPromo);
-    const intent = await simulatedGateway.createPaymentIntent(newTotals.total, 'USD', { orderId: `pending_${Date.now()}` });
+    const orderTotals = calculateTotals(state.items, state.promoCode, state.appliedPromo);
 
-    const result = await simulatedGateway.processPayment(state.paymentDetails!, intent);
-    if (!result.success) {
+    try {
+      const intent = await simulatedGateway.createPaymentIntent(orderTotals.total, 'USD', { orderId: `pending_${Date.now()}` });
+      const result = await simulatedGateway.processPayment(details, intent);
+      if (!result.success) throw new Error(result.error || 'Payment failed');
+
+      // The order keeps only what a receipt needs: never the full card number or CVV.
+      const order: Order = {
+        id: result.orderId || `ORD-${Date.now().toString(36).toUpperCase()}`,
+        items: state.items,
+        shippingAddress: address,
+        paymentDetails: {
+          method: details.method,
+          cardBrand: details.cardBrand,
+          cardNumber: details.cardNumber ? details.cardNumber.slice(-4) : undefined,
+        },
+        totals: orderTotals,
+        status: 'confirmed',
+        createdAt: new Date(),
+      };
+      dispatch({ type: 'COMPLETE_ORDER', payload: order });
+    } catch (err) {
       dispatch({ type: 'SET_PROCESSING_PAYMENT', payload: false });
-      throw new Error(result.error || 'Payment failed');
+      throw err;
     }
-
-    const order: Order = {
-      id: result.orderId || `ORD-${Date.now().toString(36).toUpperCase()}`,
-      items: state.items,
-      shippingAddress: state.shippingAddress!,
-      paymentDetails: state.paymentDetails!,
-      totals: newTotals,
-      status: 'confirmed',
-      createdAt: new Date(),
-      trackingNumber: `GLM${Date.now().toString(36).toUpperCase()}${Math.random().toString(36).substring(2, 6).toUpperCase()}`,
-    };
-
-    // Keep the order in state so the confirmation screen can render it.
-    // The cart is emptied when the user clicks "Continue Shopping" (clearCart).
-    dispatch({ type: 'COMPLETE_ORDER', payload: order });
   };
 
   return (

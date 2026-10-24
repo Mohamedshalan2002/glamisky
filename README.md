@@ -1,32 +1,39 @@
-# React + TypeScript + Vite
+# Glamisky
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Storefront for Glamisky: women's dresses, sets, bags, jewelry and sunglasses.
+React 19 + TypeScript + Vite + Tailwind 3 + React Router 7.
 
-Currently, two official plugins are available:
+## Run
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+npm install
+npm run dev        # http://localhost:5173/glamisky/
+npm run build      # type-check + production build (also writes dist/404.html)
+npm run deploy     # builds, then publishes dist/ to GitHub Pages
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+`dist/404.html` is a copy of `index.html`. GitHub Pages serves it for deep links such as `/glamisky/product/dress-001`, so the router handles them.
+
+## Structure
+
+- `src/pages`: Home, Collection (category, sale, new arrivals, trending, wishlist, search), Product, NotFound
+- `src/components`: Header, PromoBar, ProductCard, CartDrawer, CheckoutModal, Coupon, Footer
+- `src/contexts`: cart (bag, promo, checkout) and wishlist
+- `src/data/products.ts`: catalog (images, prices, colors, sizes)
+- `src/services/paymentGateway.ts`: payment gateway. Currently **simulated**: no money is charged.
+
+## Before going live
+
+- Payments are simulated (`PAYMENTS_SIMULATED` in `src/lib/payments.ts`). Card charging must happen on a server with your secret key. The "Test mode" notice in checkout disappears when you set that flag to `false`.
+- Ratings and review counts in `products.ts` are placeholder data. Replace them with real reviews or remove them from the product page.
+- Add real shipping and returns policies, then link them from the footer.
+
+## Deploy to Vercel
+
+`vite.config.ts` uses base `/` when building on Vercel (it sets `VERCEL=1`) and `/glamisky/` otherwise, and `vercel.json` rewrites every path to `index.html` so deep links work.
+
+```bash
+npx vercel --prod      # from this folder; log in once, accept the defaults (Vite preset)
+```
+
+Or import the repo at vercel.com/new. Every push to the default branch (`master`) then deploys automatically.

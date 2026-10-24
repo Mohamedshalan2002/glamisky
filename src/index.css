@@ -1,196 +1,56 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600&family=Inter:wght@300;400;500;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --color-bg: 255 255 255;
-    --color-text: 29 29 29;
-    --color-muted: 115 115 115;
-  }
-
-  * {
-    @apply border-obsidian-200;
-  }
-
   html {
-    @apply scroll-smooth;
-    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 5rem;
   }
-
   body {
-    @apply bg-white text-obsidian-900 font-ui antialiased;
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    @apply bg-paper font-sans text-ink antialiased;
   }
-
-  ::selection {
-    @apply bg-gold-400/30 text-obsidian-900;
+  h1, h2, h3 {
+    @apply font-display;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
   }
-
-  ::-webkit-scrollbar {
-    @apply w-1.5;
+  p { text-wrap: pretty; }
+  img { @apply bg-blush; }
+  :focus-visible {
+    outline: 2px solid #C8196E;
+    outline-offset: 2px;
   }
-
-  ::-webkit-scrollbar-track {
-    @apply bg-transparent;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    @apply bg-gold-400/50 rounded-full hover:bg-gold-400 transition-colors;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-gold-400;
+  ::selection { background: #F3DDE8; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 
 @layer components {
-  .glass {
-    @apply bg-white/70 backdrop-blur-2xl border border-white/20 shadow-glass;
-  }
+  .page { @apply mx-auto w-full max-w-page px-4 sm:px-6 lg:px-8; }
 
-  .glass-dark {
-    @apply bg-obsidian-950/80 backdrop-blur-2xl border border-obsidian-700/50 shadow-glass;
+  .btn {
+    @apply inline-flex min-h-[3rem] items-center justify-center gap-2 rounded-full px-7 text-[0.95rem] font-semibold transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-50;
   }
+  .btn-primary { @apply btn bg-magenta text-white hover:bg-magenta-dark; }
+  .btn-dark { @apply btn bg-ink text-paper hover:bg-[#33223f]; }
+  .btn-line { @apply btn border border-ink/25 text-ink hover:border-ink hover:bg-white; }
 
-  .glass-card {
-    @apply bg-white/80 backdrop-blur-xl border border-white/30 shadow-glass transition-all duration-300 hover:shadow-glass-hover hover:border-white/40;
+  .field {
+    @apply w-full rounded-xl border border-line bg-white px-4 py-3 text-base text-ink placeholder:text-mute/70 focus:border-ink focus:outline-none focus:ring-1 focus:ring-ink;
   }
+  .field[aria-invalid='true'] { @apply border-magenta; }
+  .label { @apply mb-1.5 block text-sm font-semibold; }
+  .error-text { @apply mt-1 text-sm text-magenta; }
 
-  .btn-primary {
-    @apply relative overflow-hidden px-8 py-4 text-sm font-semibold tracking-wider uppercase text-white bg-obsidian-950 rounded-none transition-all duration-300 hover:bg-obsidian-700 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-gold-400 focus:ring-offset-2;
+  .chip {
+    @apply inline-flex min-h-[2.5rem] items-center rounded-full border border-line bg-white px-4 text-sm font-medium transition-colors hover:border-ink;
   }
-
-  .btn-primary::before {
-    content: '';
-    @apply absolute inset-0 bg-gold-gradient opacity-0 transition-opacity duration-300;
-  }
-
-  .btn-primary:hover::before {
-    @apply opacity-100;
-  }
-
-  .btn-primary span {
-    @apply relative z-10;
-  }
-
-  .btn-secondary {
-    @apply relative px-8 py-4 text-sm font-semibold tracking-wider uppercase text-obsidian-900 bg-transparent border border-obsidian-300 rounded-none transition-all duration-300 hover:bg-obsidian-100 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-gold-400 focus:ring-offset-2;
-  }
-
-  .btn-gold {
-    @apply relative overflow-hidden px-8 py-4 text-sm font-semibold tracking-wider uppercase text-obsidian-950 bg-gold-gradient rounded-none transition-all duration-300 hover:scale-105 hover:shadow-gold-glow active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-gold-400 focus:ring-offset-2;
-  }
-
-  .btn-gold span {
-    @apply relative z-10;
-  }
-
-  .input-luxury {
-    @apply w-full px-5 py-4 text-obsidian-900 bg-white/50 backdrop-blur-sm border border-obsidian-200 rounded-none text-base font-ui placeholder:text-obsidian-400 transition-all duration-300 focus:outline-none focus:border-gold-400 focus:bg-white focus:ring-1 focus:ring-gold-400 focus:ring-offset-0 disabled:opacity-50 disabled:cursor-not-allowed;
-  }
-
-  .label-luxury {
-    @apply block text-xs font-semibold tracking-widest uppercase text-obsidian-500 mb-2;
-  }
-
-  .card-product {
-    @apply relative glass-card overflow-hidden cursor-pointer;
-  }
-
-  .card-product-image {
-    @apply relative overflow-hidden aspect-[3/4] bg-obsidian-100;
-  }
-
-  .card-product-image img {
-    @apply w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-105;
-  }
-
-  .badge {
-    @apply absolute top-3 left-3 px-2.5 py-1 text-xs font-semibold tracking-widest uppercase rounded-none backdrop-blur-sm;
-  }
-
-  .badge-new {
-    @apply bg-gold-500 text-obsidian-950;
-  }
-
-  .badge-trending {
-    @apply bg-obsidian-950 text-gold-300;
-  }
-
-  .badge-sale {
-    @apply bg-red-500 text-white;
-  }
-
-  .quick-add-btn {
-    @apply absolute bottom-4 left-1/2 -translate-x-1/2 px-5 py-2.5 text-xs font-semibold tracking-widest uppercase text-white bg-obsidian-950 rounded-none opacity-0 translate-y-4 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0;
-  }
-
-  .section-container {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
-  }
-
-  .section-title {
-    @apply font-display text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight text-obsidian-950;
-  }
-
-  .section-subtitle {
-    @apply font-sans text-lg md:text-xl text-obsidian-500 max-w-2xl mx-auto mt-4;
-  }
-
-  .magnetic-btn {
-    @apply relative overflow-hidden;
-  }
-
-  .text-gradient-gold {
-    @apply bg-gold-gradient bg-clip-text text-transparent;
-  }
-
-  .text-gradient-obsidian {
-    @apply bg-obsidian-gradient bg-clip-text text-transparent;
-  }
-}
-
-@layer utilities {
-  .perspective-1000 {
-    perspective: 1000px;
-  }
-
-  .transform-style-3d {
-    transform-style: preserve-3d;
-  }
-
-  .backface-hidden {
-    backface-visibility: hidden;
-  }
-
-  .rotate-y-180 {
-    transform: rotateY(180deg);
-  }
-
-  .animation-delay-100 {
-    animation-delay: 100ms;
-  }
-
-  .animation-delay-200 {
-    animation-delay: 200ms;
-  }
-
-  .animation-delay-300 {
-    animation-delay: 300ms;
-  }
-
-  .animation-delay-400 {
-    animation-delay: 400ms;
-  }
-
-  .animation-delay-500 {
-    animation-delay: 500ms;
-  }
-
-  .text-balance {
-    text-wrap: balance;
-  }
+  .chip[aria-current='page'], .chip[aria-pressed='true'] { @apply border-ink bg-ink text-paper; }
 }
