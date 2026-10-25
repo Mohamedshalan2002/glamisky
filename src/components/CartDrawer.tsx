@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Minus, Plus, ShoppingBag, X } from 'lucide-react';
 import { useCart, FREE_ALLOWANCE_CAP, SERVICE_FEE_RATE } from '../contexts/CartContext';
 import { swatchBackground } from '../lib/swatch';
+import { SafeImage } from './SafeImage';
 
 const money = (n: number) => `$${n.toFixed(2)}`;
 
@@ -84,7 +85,7 @@ function Drawer({ onClose }: { onClose: () => void }) {
                 return (
                   <li key={`${p.id}-${color}-${size}`} className="flex gap-4 py-5">
                     <Link to={`/product/${p.id}`} onClick={onClose} className="shrink-0">
-                      <img src={p.images[0]} alt={p.name} className="h-28 w-[5.25rem] rounded-xl object-cover" />
+                      <SafeImage src={p.images[0]} alt={p.name} className="h-28 w-[5.25rem] rounded-xl object-cover" />
                     </Link>
                     <div className="flex min-w-0 flex-1 flex-col">
                       <div className="flex justify-between gap-3">

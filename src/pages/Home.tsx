@@ -6,6 +6,7 @@ import { Coupon } from '../components/Coupon';
 import { Price } from '../components/ProductCard';
 import { BRAND } from '../lib/brand';
 import { EXPRESS_SHIPPING, FREE_ALLOWANCE_CAP, SERVICE_FEE_RATE, STANDARD_SHIPPING } from '../contexts/CartContext';
+import { SafeImage } from '../components/SafeImage';
 
 const lowest = Math.min(...products.map((p) => p.price));
 const ceiling = Math.ceil(Math.max(...products.map((p) => p.price)) / 10) * 10;
@@ -52,7 +53,7 @@ export function Home() {
             <li key={product.id} className={offset}>
               <Link to={`/product/${product.id}`} className="group block">
                 <div className="aspect-[3/5] overflow-hidden rounded-arch bg-blush">
-                  <img src={product.images[0]} alt={product.name} className="h-full w-full object-cover" loading="eager" />
+                  <SafeImage src={product.images[0]} alt={product.name} className="h-full w-full object-cover" loading="eager" />
                 </div>
                 <div className="mt-2.5 px-1">
                   <p className="truncate text-sm font-medium group-hover:underline">{product.name}</p>
@@ -85,7 +86,7 @@ export function Home() {
             <li key={c.id} className="w-32 shrink-0 sm:mx-auto sm:w-full sm:max-w-[10rem]">
               <Link to={`/category/${c.id}`} className="group block text-center">
                 <div className="aspect-square overflow-hidden rounded-full bg-blush ring-2 ring-transparent ring-offset-2 ring-offset-paper transition group-hover:ring-ink">
-                  <img src={c.image} alt="" loading="lazy" className="h-full w-full object-cover" />
+                  <SafeImage src={c.image} alt="" loading="lazy" className="h-full w-full object-cover" />
                 </div>
                 <span className="mt-3 block font-medium">{c.name}</span>
               </Link>

@@ -9,6 +9,7 @@ import { discountPercent } from '../lib/pricing';
 import { ProductGrid } from '../components/ProductGrid';
 import { NotFound } from './NotFound';
 import { needsRing, swatchBackground } from '../lib/swatch';
+import { SafeImage } from '../components/SafeImage';
 
 export function ProductPage() {
   const { productId } = useParams();
@@ -67,12 +68,12 @@ function Detail({ productId }: { productId: string }) {
                 aria-pressed={i === image}
                 className={`h-24 w-[4.5rem] overflow-hidden rounded-xl border-2 lg:h-24 lg:w-full ${i === image ? 'border-ink' : 'border-transparent'}`}
               >
-                <img src={src} alt="" className="h-full w-full object-cover" />
+                <SafeImage src={src} alt="" className="h-full w-full object-cover" />
               </button>
             ))}
           </div>
           <div className="relative order-1 aspect-[4/5] overflow-hidden rounded-3xl bg-blush lg:order-2">
-            <img src={product.images[image]} alt={product.name} className="h-full w-full object-cover" />
+            <SafeImage src={product.images[image]} alt={product.name} className="h-full w-full object-cover" />
             {off && <span className="absolute left-4 top-4 rounded-full bg-magenta px-3 py-1 text-sm font-bold text-white">−{off}%</span>}
           </div>
         </div>

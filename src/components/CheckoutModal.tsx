@@ -4,6 +4,7 @@ import { useCart } from '../contexts/CartContext';
 import type { PaymentDetails, ShippingAddress } from '../types';
 import { COUNTRIES } from '../lib/countries';
 import { PAYMENTS_SIMULATED } from '../lib/payments';
+import { SafeImage } from './SafeImage';
 import {
   detectCardBrand,
   formatCardNumber,
@@ -260,7 +261,7 @@ function Summary() {
       <ul className="space-y-3">
         {state.items.map((i) => (
           <li key={`${i.product.id}-${i.selectedColor}-${i.selectedSize}`} className="flex items-center gap-3 text-sm">
-            <img src={i.product.images[0]} alt="" className="h-16 w-12 rounded-lg object-cover" />
+            <SafeImage src={i.product.images[0]} alt="" className="h-16 w-12 shrink-0 rounded-lg object-cover" />
             <span className="min-w-0 flex-1">
               <span className="block truncate font-medium">{i.product.name}</span>
               <span className="text-mute">{i.selectedColor}{i.selectedSize !== 'One Size' && ` · ${i.selectedSize}`} · Qty {i.quantity}</span>
