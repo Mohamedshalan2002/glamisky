@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Heart, Menu, Search, ShoppingBag, X } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
 import { useWishlist } from '../contexts/WishlistContext';
 import { categories, products } from '../data/products';
+import { SafeImage } from './SafeImage';
 
 const SHORT: Record<string, string> = {
   dresses: 'Dresses',
@@ -55,7 +57,7 @@ export function Header() {
           <Menu className="h-6 w-6" />
         </button>
 
-        <Link to="/" className="font-display text-[1.7rem] font-medium italic leading-none tracking-tight">
+        <Link to="/" className="flex min-h-11 items-center font-display text-[1.7rem] font-medium italic leading-none tracking-tight">
           Glamisky
         </Link>
 
@@ -65,7 +67,7 @@ export function Header() {
               key={l.to}
               to={l.to}
               className={({ isActive }) =>
-                `rounded-full px-4 py-2 text-[0.95rem] font-medium transition-colors hover:bg-blush ${
+                `inline-flex min-h-11 items-center rounded-full px-4 text-[0.95rem] font-medium transition-colors hover:bg-blush ${
                   l.to === '/sale' ? 'text-magenta' : ''
                 } ${isActive ? 'underline decoration-2 underline-offset-[10px]' : ''}`
               }
@@ -138,7 +140,7 @@ function useEscape(onClose: () => void) {
 
 function MobileMenu({ onClose }: { onClose: () => void }) {
   useEscape(onClose);
-  return (
+  return createPortal(
     <motion.div
       role="dialog"
       aria-modal="true"
@@ -167,7 +169,8 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
           </Link>
         ))}
       </nav>
-    </motion.div>
+    </motion.div>,
+    document.body,
   );
 }
 
@@ -186,7 +189,7 @@ function SearchOverlay({ onClose }: { onClose: () => void }) {
         .slice(0, 6)
     : [];
 
-  return (
+  return createPortal(
     <motion.div
       role="dialog"
       aria-modal="true"
@@ -237,7 +240,7 @@ function SearchOverlay({ onClose }: { onClose: () => void }) {
                 {results.map((p) => (
                   <li key={p.id}>
                     <Link to={`/product/${p.id}`} onClick={onClose} className="flex items-center gap-4 rounded-xl p-2 hover:bg-blush">
-                      <img src={p.images[0]} alt="" className="h-16 w-14 rounded-lg object-cover" />
+                      <SafeImage src={p.images[0]} alt="" className="h-16 w-14 shrink-0 rounded-lg object-cover" />
                       <span className="min-w-0 flex-1">
                         <span className="block truncate font-medium">{p.name}</span>
                         <span className="text-sm text-mute">${p.price.toFixed(2)}</span>
@@ -250,6 +253,7 @@ function SearchOverlay({ onClose }: { onClose: () => void }) {
           </div>
         )}
       </motion.div>
-    </motion.div>
+    </motion.div>,
+    document.body,
   );
 }

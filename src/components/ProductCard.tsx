@@ -3,6 +3,7 @@ import { Heart } from 'lucide-react';
 import type { Product } from '../types';
 import { useWishlist } from '../contexts/WishlistContext';
 import { discountPercent } from '../lib/pricing';
+import { SafeImage } from './SafeImage';
 
 export function Price({ product, large = false }: { product: Product; large?: boolean }) {
   const off = discountPercent(product);
@@ -29,14 +30,15 @@ export function ProductCard({ product, eager = false }: { product: Product; eage
     <article className="group relative">
       <Link to={`/product/${product.id}`} className="block">
         <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-blush">
-          <img
+          <SafeImage
             src={product.images[0]}
             alt={product.name}
             loading={eager ? 'eager' : 'lazy'}
             className="h-full w-full object-cover"
           />
           {second && (
-            <img
+            <SafeImage
+              hideOnError
               src={second}
               alt=""
               loading="lazy"

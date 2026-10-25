@@ -12,6 +12,7 @@ import { Home } from './pages/Home';
 import { Collection } from './pages/Collection';
 import { ProductPage } from './pages/Product';
 import { NotFound } from './pages/NotFound';
+import { ImageAudit } from './pages/ImageAudit';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -47,6 +48,7 @@ function Shell() {
           <Route path="/wishlist" element={<Collection kind="wishlist" />} />
           <Route path="/search" element={<Collection kind="search" />} />
           <Route path="/product/:productId" element={<ProductPage />} />
+          <Route path="/qa/images" element={<ImageAudit />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
