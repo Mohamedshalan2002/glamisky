@@ -63,7 +63,6 @@ export const products: Product[] = [
     price: 22.99,
     images: [
       'https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=600&q=80',
-      'https://images.unsplash.com/photo-1610026400463-ec78c1eb2e5f?w=600&q=80',
     ],
     category: 'dresses',
     rating: 4.7,
@@ -80,7 +79,6 @@ export const products: Product[] = [
     price: 26.99,
     originalPrice: 36.99,
     images: [
-      'https://images.unsplash.com/photo-1610026400463-ec78c1eb2e5f?w=600&q=80',
       'https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?w=600&q=80',
     ],
     category: 'dresses',
@@ -98,7 +96,6 @@ export const products: Product[] = [
     price: 19.99,
     images: [
       'https://images.unsplash.com/photo-1598554747436-c9293d6a588f?w=600&q=80',
-      'https://images.unsplash.com/photo-1572804013563-5b77d8b8b5a3?w=600&q=80',
     ],
     category: 'dresses',
     rating: 4.6,
@@ -169,7 +166,6 @@ export const products: Product[] = [
     price: 14.99,
     originalPrice: 21.99,
     images: [
-      'https://images.unsplash.com/photo-1564257577-450cb5f5a1a0?w=600&q=80',
       'https://images.unsplash.com/photo-1598554747436-c9293d6a588f?w=600&q=80',
     ],
     category: 'tops-sets',
@@ -311,7 +307,6 @@ export const products: Product[] = [
     description: '100% mulberry silk twill, 5x86cm. Hand-rolled edges. Exclusive Glamisky archive print. Wear on hair, wrist, bag handle, or as a choker. Dry clean only.',
     price: 9.99,
     images: [
-      'https://images.unsplash.com/photo-1584030373213-c1b5e8b8b5a3?w=600&q=80',
       'https://images.unsplash.com/photo-1601924994987-69e26d50dc26?w=600&q=80',
     ],
     category: 'jewelry',
