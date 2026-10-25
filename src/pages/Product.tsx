@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Check, Heart, Star } from 'lucide-react';
+import { Check, Heart } from 'lucide-react';
 import { categories, getProductById, products } from '../data/products';
 import { useCart, EXPRESS_SHIPPING, STANDARD_SHIPPING } from '../contexts/CartContext';
 import { useWishlist } from '../contexts/WishlistContext';
@@ -57,7 +57,8 @@ function Detail({ productId }: { productId: string }) {
       </nav>
 
       <div className="grid gap-8 lg:grid-cols-[1.1fr_1fr] lg:gap-14">
-        <div className="grid gap-3 lg:grid-cols-[5rem_1fr] lg:items-start">
+        <div className={`grid gap-3 lg:items-start ${product.images.length > 1 ? 'lg:grid-cols-[5rem_1fr]' : ''}`}>
+          {product.images.length > 1 && (
           <div className="order-2 flex gap-2 lg:order-1 lg:flex-col" role="group" aria-label="Product images">
             {product.images.map((src, i) => (
               <button
@@ -72,6 +73,7 @@ function Detail({ productId }: { productId: string }) {
               </button>
             ))}
           </div>
+          )}
           <div className="relative order-1 aspect-[4/5] overflow-hidden rounded-3xl bg-blush lg:order-2">
             <SafeImage src={product.images[image]} alt={product.name} className="h-full w-full object-cover" />
             {off && <span className="absolute left-4 top-4 rounded-full bg-magenta px-3 py-1 text-sm font-bold text-white">−{off}%</span>}
@@ -80,12 +82,8 @@ function Detail({ productId }: { productId: string }) {
 
         <div className="lg:pt-2">
           <h1 className="text-4xl sm:text-5xl">{product.name}</h1>
-          <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1">
+          <div className="mt-3">
             <Price product={product} large />
-            <p className="flex items-center gap-1 text-sm text-mute">
-              <Star className="h-4 w-4 fill-ink text-ink" aria-hidden="true" />
-              {product.rating} ({product.reviewCount} reviews)
-            </p>
           </div>
           <p className="mt-5 max-w-prose leading-relaxed text-mute">{product.description}</p>
 

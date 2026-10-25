@@ -89,42 +89,8 @@ export const products: Product[] = [
     colors: ['Midnight', 'Burgundy', 'Emerald', 'Champagne'],
     sizes: ['XS', 'S', 'M', 'L'],
   },
-  {
-    id: 'dress-004',
-    name: 'Linen-Blend Shirt Dress',
-    description: 'Effortless chic in breathable linen-blend. Oversized fit with removable belt. Mother-of-pearl buttons and curved hem. Roll-tab sleeves for versatile styling.',
-    price: 19.99,
-    images: [
-      'https://images.unsplash.com/photo-1598554747436-c9293d6a588f?w=600&q=80',
-    ],
-    category: 'dresses',
-    rating: 4.6,
-    reviewCount: 203,
-    tags: ['linen', 'shirt-dress', 'casual', 'belted'],
-    isNew: true,
-    colors: ['White', 'Sand', 'Navy', 'Terracotta'],
-    sizes: ['XS', 'S', 'M', 'L', 'XL'],
-  },
 
   // TOPS & SETS
-  {
-    id: 'top-001',
-    name: 'Silk Camisole & Shorts Set',
-    description: 'Luxurious 19-momme mulberry silk. Adjustable straps with French lace trim. Elasticized waist shorts with side slits. Packaged in a signature Glamisky gift box.',
-    price: 24.99,
-    originalPrice: 34.99,
-    images: [
-      'https://images.unsplash.com/photo-1598554747436-c9293d6a588f?w=600&q=80',
-      'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=600&q=80',
-    ],
-    category: 'tops-sets',
-    rating: 4.9,
-    reviewCount: 312,
-    tags: ['silk', 'set', 'camisole', 'luxury'],
-    isTrending: true,
-    colors: ['Champagne', 'Obsidian', 'Pearl', 'Rose'],
-    sizes: ['XS', 'S', 'M', 'L'],
-  },
   {
     id: 'top-002',
     name: 'Cashmere-Blend Ribbed Tank',
@@ -159,23 +125,6 @@ export const products: Product[] = [
     colors: ['Obsidian', 'Camel', 'Slate', 'Cream'],
     sizes: ['XS', 'S', 'M', 'L', 'XL'],
   },
-  {
-    id: 'top-004',
-    name: 'Puff-Sleeve Cotton Poplin Blouse',
-    description: 'Crisp cotton poplin with dramatic balloon sleeves. Keyhole button closure at back. Peplum hem for a flattering silhouette. A modern romantic essential.',
-    price: 14.99,
-    originalPrice: 21.99,
-    images: [
-      'https://images.unsplash.com/photo-1598554747436-c9293d6a588f?w=600&q=80',
-    ],
-    category: 'tops-sets',
-    rating: 4.5,
-    reviewCount: 267,
-    tags: ['blouse', 'puff-sleeve', 'cotton', 'feminine'],
-    isSale: true,
-    colors: ['White', 'Pale Blue', 'Lavender', 'Butter'],
-    sizes: ['XS', 'S', 'M', 'L', 'XL'],
-  },
 
   // LUXURY BAGS
   {
@@ -185,7 +134,6 @@ export const products: Product[] = [
     price: 14.50,
     images: [
       'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600&q=80',
-      'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&q=80',
     ],
     category: 'bags',
     rating: 4.8,
@@ -203,7 +151,6 @@ export const products: Product[] = [
     originalPrice: 27.99,
     images: [
       'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&q=80',
-      'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=600&q=80',
     ],
     category: 'bags',
     rating: 4.7,
@@ -220,7 +167,6 @@ export const products: Product[] = [
     price: 12.99,
     images: [
       'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=600&q=80',
-      'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&q=80',
     ],
     category: 'bags',
     rating: 4.6,
@@ -229,22 +175,6 @@ export const products: Product[] = [
     isNew: true,
     isTrending: true,
     colors: ['Silver', 'Gold', 'Obsidian', 'White', 'Red'],
-    sizes: ['One Size'],
-  },
-  {
-    id: 'bag-004',
-    name: 'Woven Raffia Tote',
-    description: 'Artisan-woven natural raffia with leather trim. Spacious interior with zippered pocket. Sturdy leather handles. Perfect for market days or beach getaways.',
-    price: 16.99,
-    images: [
-      'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=600&q=80',
-      'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&q=80',
-    ],
-    category: 'bags',
-    rating: 4.5,
-    reviewCount: 198,
-    tags: ['raffia', 'woven', 'summer', 'beach'],
-    colors: ['Natural', 'Natural/Black', 'Natural/Tan'],
     sizes: ['One Size'],
   },
 
@@ -256,7 +186,6 @@ export const products: Product[] = [
     price: 5.49,
     images: [
       'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=600&q=80',
-      'https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=600&q=80',
     ],
     category: 'jewelry',
     rating: 4.9,
@@ -274,7 +203,6 @@ export const products: Product[] = [
     originalPrice: 14.99,
     images: [
       'https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=600&q=80',
-      'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=600&q=80',
     ],
     category: 'jewelry',
     rating: 4.8,
@@ -291,7 +219,6 @@ export const products: Product[] = [
     price: 4.99,
     images: [
       'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=600&q=80',
-      'https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=600&q=80',
     ],
     category: 'jewelry',
     rating: 4.7,
@@ -325,7 +252,6 @@ export const products: Product[] = [
     price: 6.99,
     images: [
       'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&q=80',
-      'https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=600&q=80',
     ],
     category: 'sunglasses',
     rating: 4.8,
@@ -343,7 +269,6 @@ export const products: Product[] = [
     originalPrice: 12.99,
     images: [
       'https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=600&q=80',
-      'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&q=80',
     ],
     category: 'sunglasses',
     rating: 4.7,
@@ -360,7 +285,6 @@ export const products: Product[] = [
     price: 5.99,
     images: [
       'https://images.unsplash.com/photo-1577803645773-f96470509666?w=600&q=80',
-      'https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=600&q=80',
     ],
     category: 'sunglasses',
     rating: 4.6,
@@ -368,22 +292,6 @@ export const products: Product[] = [
     tags: ['rectangular', '90s', 'wire', 'minimalist'],
     isNew: true,
     colors: ['Gold/Grey', 'Silver/Blue', 'Gunmetal/Green', 'Rose Gold/Pink'],
-    sizes: ['One Size'],
-  },
-  {
-    id: 'sunglasses-004',
-    name: 'Aviator Double Bridge',
-    description: 'Classic teardrop shape with distinctive double bridge. Premium stainless steel with spring hinges. Polarized UV400 lenses reduce glare. Unisex fit. Includes premium case.',
-    price: 8.99,
-    images: [
-      'https://images.unsplash.com/photo-1577803645773-f96470509666?w=600&q=80',
-      'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&q=80',
-    ],
-    category: 'sunglasses',
-    rating: 4.7,
-    reviewCount: 389,
-    tags: ['aviator', 'double-bridge', 'polarized', 'classic'],
-    colors: ['Gold/Grey', 'Gunmetal/Green', 'Black/Grey', 'Rose Gold/Brown'],
     sizes: ['One Size'],
   },
 ];
